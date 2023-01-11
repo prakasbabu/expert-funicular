@@ -1,0 +1,11 @@
+com\prakash\productservice\dto\ProductResponse$ProductResponseBuilder.class
+com\prakash\productservice\ProductServiceApplication.class
+com\prakash\productservice\service\impl\ProductServiceImpl.class
+com\prakash\productservice\model\Product$ProductBuilder.class
+com\prakash\productservice\service\iface\ProductService.class
+com\prakash\productservice\model\Product.class
+com\prakash\productservice\controller\ProductController.class
+com\prakash\productservice\dto\ProductRequest$ProductRequestBuilder.class
+com\prakash\productservice\repository\ProductRepository.class
+com\prakash\productservice\dto\ProductResponse.class
+com\prakash\productservice\dto\ProductRequest.class

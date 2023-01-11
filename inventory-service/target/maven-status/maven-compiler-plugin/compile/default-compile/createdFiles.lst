@@ -1,0 +1,6 @@
+com\inventoryservice\controller\InventoryController.class
+com\inventoryservice\service\iface\InventoryService.class
+com\inventoryservice\repository\InventoryRepository.class
+com\inventoryservice\InventoryServiceApplication.class
+com\inventoryservice\service\impl\InventoryServiceImpl.class
+com\inventoryservice\model\Inventory.class
