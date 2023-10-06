@@ -31,12 +31,11 @@ public class ProductController {
         }
     }
 
-    @GetMapping("products")
+    @GetMapping("/products")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAllProducts(){
 
        return  productService.getAllProducts();
     }
-
 
 }

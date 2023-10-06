@@ -23,14 +23,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<String,OrderPlacedEvent> kafkaTemplate;
 
 
     @Override
-    public void placeOrder(OrderRequest orderRequest) {
+    public String placeOrder(OrderRequest orderRequest) {
 
         Order order = new Order();
 
@@ -47,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
             List<String> skuCodes= orderLineItemsList.stream()
                     .map(orderLineItems -> orderLineItems.getSkuCode()).toList();
 
-
+            //
           InventoryResponse [] inventoryResponseArray =    webClientBuilder.build()
                               .get()
                               .uri("http://Inventory-Service/api/inventory",
@@ -62,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
           if ( allProductsInStock){
               orderRepository.save(order);
               kafkaTemplate.send("notificationTopic",new OrderPlacedEvent(order.getOrderNumber()));
+              return "Order placed successfully ";
           }else{
               throw new IllegalArgumentException("Out of stock, try again later");
           }
@@ -70,11 +70,9 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
-
         orderLineItems.setPrice(orderLineItemsDto.getPrice());
         orderLineItems.setQuantity(orderLineItemsDto.getQuantity());
         orderLineItems.setSkuCode(orderLineItemsDto.getSkuCode());
-
         return orderLineItems;
     }
 }
