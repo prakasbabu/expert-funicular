@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;

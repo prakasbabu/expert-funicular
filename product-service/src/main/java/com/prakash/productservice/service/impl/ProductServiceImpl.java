@@ -5,6 +5,7 @@ import com.prakash.productservice.dto.ProductResponse;
 import com.prakash.productservice.model.Product;
 import com.prakash.productservice.repository.ProductRepository;
 import com.prakash.productservice.service.iface.ProductService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     @Override
     public void createProduct(ProductRequest productRequest) {
@@ -31,9 +29,8 @@ public class ProductServiceImpl implements ProductService {
                 .price(productRequest.getPrice())
                 .description(productRequest.getDescription())
                 .build();
-
     productRepository.save(product);
-    log.info("Product {} is saved " + product.getId());
+    log.info("Product {} is saved " , product.getId());
 
     }
 
@@ -48,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getAllProducts() {
        List <Product> products= productRepository.findAll();
-        return products.stream().map(product -> mapToProductResponse(product)).collect(Collectors.toList());
+        return products.stream().map(this::mapToProductResponse).collect(Collectors.toList());
     }
 
     private ProductResponse mapToProductResponse(Product product) {

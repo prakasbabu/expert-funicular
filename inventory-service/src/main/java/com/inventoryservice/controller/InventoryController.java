@@ -10,18 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/inventory")
-
 public class InventoryController {
+    private final InventoryService inventoryService;
 
-    private InventoryService inventoryService;
-
-    @Autowired
-    public InventoryController(InventoryService inventoryService) {
-        this.inventoryService = inventoryService;
-    }
-
-    @GetMapping()
+    @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
     public List <InventoryResponse> isInStock( @RequestParam(name ="skuCode") List <String> skuCode) throws InterruptedException {
        return inventoryService.isInStock(skuCode);
